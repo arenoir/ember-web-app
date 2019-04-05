@@ -1,6 +1,8 @@
 const assert = require('assert');
 const fs = require('fs');
 const AddonTestApp = require('ember-cli-addon-tests').AddonTestApp;
+const jsdom = require('jsdom');
+const { JSDOM } = jsdom;
 
 describe('Acceptance: manifest file generation', function() {
   this.timeout(300000);
@@ -93,6 +95,32 @@ describe('Acceptance: manifest file generation', function() {
         assert.ok(
           content.indexOf('href="/foo/bar/baz/manifest.webmanifest"') > -1,
           'index.html uses rootURL from configuration'
+        );
+      });
+  });
+
+
+  it('does not use rootURL configuration if fingerprint has prepend option', function() {
+    return app
+      .create('config-root-url-and-fingerprint', {
+        fixturesPath: 'node-tests/acceptance/fixtures',
+      })
+      .then(function() {
+        return app.runEmberCommand('build', '--prod');
+      })
+      .then(contentOf(app, 'dist/index.html'))
+      .then(function(content) {
+        const { document } = (new JSDOM(content)).window;
+
+        assert.equal(
+          document.querySelector(`link[rel=manifest]`).getAttribute('href'),
+          'https://www.example.com/manifest-26f6e2ea30f529af5d08fed18a618c6d.webmanifest',
+          'index.html uses rootURL from configuration'
+        );
+        assert.equal(
+          document.querySelector('link[rel=apple-touch-icon]').getAttribute('href'),
+          'https://www.example.com/pio-8911090226e7b5522790f1218f6924a5.png',
+          'checksum fingerprint is added to image file'
         );
       });
   });

@@ -21,7 +21,7 @@
   "scripts": {
     "build": "ember build",
     "fast-test": "SKIP_ACCEPTANCE=true yarn node-test",
-    "node-test": "mocha --recursive node-tests",
+    "node-test": "mocha --recursive node-tests -g 'does not use rootURL config'",
     "changelog": "lerna-changelog",
     "lint:hbs": "ember-template-lint .",
     "lint:js": "eslint . --cache",
@@ -69,6 +69,7 @@
     "eslint-plugin-ember": "^6.3.0",
     "eslint-plugin-node": "^8.0.1",
     "eslint-plugin-prettier": "^3.0.1",
+    "jsdom": "14.0.0",
     "lerna-changelog": "^0.8.2",
     "loader.js": "^4.7.0",
     "mocha": "^5.2.0",
