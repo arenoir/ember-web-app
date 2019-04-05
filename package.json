@@ -21,7 +21,7 @@
   "scripts": {
     "build": "ember build",
     "fast-test": "SKIP_ACCEPTANCE=true yarn node-test",
-    "node-test": "mocha --recursive node-tests -g 'does not use rootURL config'",
+    "node-test": "mocha --recursive node-tests",
     "changelog": "lerna-changelog",
     "lint:hbs": "ember-template-lint .",
     "lint:js": "eslint . --cache",

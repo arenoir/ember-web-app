@@ -21,13 +21,6 @@ module.exports = {
   included(app) {
     this.app = app;
     app.options = app.options || {};
-    app.options.fingerprint = this.app.options.fingerprint || {};
-    app.options.fingerprint.exclude = this.app.options.fingerprint.exclude || [];
-
-    if (app.options.fingerprint.prepend && app.env === 'production' ) {
-
-    }
-
     this.addonBuildConfig = this.app.options['ember-web-app'] || {};
 
     if (!this._disabled()) {
